@@ -11,7 +11,7 @@ private:
 public:
 	SimpleVector() {
 		currentSize = 0;
-		currentCapacity = 1;
+		currentCapacity = 10;
 		data = new T[currentCapacity];
 	}
 
@@ -61,9 +61,9 @@ int main() {
 	cout << "값을 넣기 전 capacity : " << myVector.capacity() << endl;
 	cout << endl;
 
-	myVector.push_back(1);
-	myVector.push_back(2);
-	myVector.push_back(3);
+	for(int i = 0; i < 32; i++) {
+		myVector.push_back(i);
+	}
 
 	cout << "값을 넣은 후 size : " << myVector.size() << endl;
 	cout << "값을 넣은 후 capacity : " << myVector.capacity() << endl;
