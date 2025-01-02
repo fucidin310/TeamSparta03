@@ -1,0 +1,104 @@
+#include <iostream>
+#include <algorithm>
+#include <random>
+using namespace std;
+
+template <typename T>
+class SimpleVector {
+private:
+	T* data;
+	int currentSize;
+	int currentCapacity;
+
+public:
+	SimpleVector() {
+		currentSize = 0;
+		currentCapacity = 10;
+		data = new T[currentCapacity];
+	}
+
+	SimpleVector(int capacity) {
+		currentSize = 0;
+		currentCapacity = capacity;
+		data = new T[currentCapacity];
+	}
+
+	~SimpleVector() {
+		delete[] data;
+	}
+
+	void push_back(const T& value) {
+		if (currentSize == currentCapacity) {
+			currentCapacity += 5;
+			T* newData = new T[currentCapacity];
+			for (int i = 0; i < currentSize; i++) {
+				newData[i] = data[i];
+			}
+			delete[] data;
+			data = newData;
+		}
+
+		data[currentSize++] = value;
+	}
+
+	void pop_back() {
+		if (currentSize > 0) {
+			currentSize--;
+		}
+	}
+
+	int size() const {
+		return currentSize;
+	}
+
+	int capacity() const {
+		return currentCapacity;
+	}
+
+	void resize(int newCapacity) {
+		if (newCapacity < currentSize) {
+			return;
+		}
+
+		T* newData = new T[newCapacity];
+		for (int i = 0; i < currentSize; i++) {
+			newData[i] = data[i];
+		}
+		delete[] data;
+		data = newData;
+		currentCapacity = newCapacity;
+	}
+	
+	void sortData() {
+		sort(data, data + currentSize);
+	}
+};
+
+int main() {
+	SimpleVector<int> myVector;
+
+	cout << "값을 넣기 전 size : " << myVector.size() << endl;
+	cout << "값을 넣기 전 capacity : " << myVector.capacity() << endl;
+	cout << endl;
+
+	for(int i = 0; i < 32; i++) {
+		myVector.push_back(i);
+	}
+
+	cout << "값을 넣은 후 size : " << myVector.size() << endl;
+	cout << "값을 넣은 후 capacity : " << myVector.capacity() << endl;
+	cout << endl;
+
+	for (int i = 0; i < 15; i++) {
+		myVector.pop_back();
+	}
+
+	cout << "값을 뺀 후 size : " << myVector.size() << endl;
+	cout << "값을 뺀 후 capacity : " << myVector.capacity() << endl;
+	cout << endl;
+
+	myVector.resize(20);
+
+	cout << "resize 후 size : " << myVector.size() << endl;
+	cout << "resize 후 capacity : " << myVector.capacity() << endl;
+}
